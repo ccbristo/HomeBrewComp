@@ -48,7 +48,7 @@ namespace HomeBrewComp.Domain
             if (t != otherType)
                 return false;
 
-            var fields = t.GetFields(BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public);
+            var fields = GetFields();
 
             foreach (FieldInfo field in fields)
             {

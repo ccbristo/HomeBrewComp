@@ -2,7 +2,7 @@
 
 namespace HomeBrewComp.Domain
 {
-    public class Style : Entity<Style>
+    public class Style : AggregateRoot<Style>
     {
         public Style()
         {

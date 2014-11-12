@@ -1,13 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace HomeBrewComp.Domain
+﻿namespace HomeBrewComp.Domain
 {
     public class Entry : Entity<Entry>
     {
+        private Entry()
+        { }
+
+        public Entry(string name, int number, SubStyle subStyle, string specialIngredients)
+        {
+            this.Name = name;
+            this.Number = number;
+            this.Style = subStyle;
+            this.SpecialIngredients = specialIngredients;
+        }
+
         public virtual string Name { get; set; }
         public virtual bool CheckedIn { get; set; }
         public virtual int Number { get; set; }

@@ -6,8 +6,17 @@ using System.Threading.Tasks;
 
 namespace HomeBrewComp.Domain
 {
-    public class Club : Entity<Club>
+    public class Club : AggregateRoot<Club>
     {
+        protected Club()
+            : this(null)
+        { }
+
+        public Club(string name)
+        {
+            this.Name = name;
+        }
+
         public virtual string Name { get; set; }
     }
 }

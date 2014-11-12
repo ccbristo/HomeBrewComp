@@ -6,31 +6,57 @@ using System.Threading.Tasks;
 
 namespace HomeBrewComp.Domain
 {
-    public class Competition : Entity<Competition>
+    public class Competition : AggregateRoot<Competition>
     {
-        public Competition()
+        protected Competition()
+            : this(null, 0, DateTime.MinValue, null, false)
+        { }
+
+        public Competition(string name, int hostClubId, DateTime date, Address location, bool ahaSanctioned)
         {
+            this.Name = name;
+            this.HostClubId = hostClubId;
+            this.EventDate = date;
+            this.Location = location;
             this.ShippingAddresses = new List<Address>();
-            this.Stewards = new List<User>();
-            this.Judges = new List<User>();
+            this.StewardIds = new List<int>();
+            this.JudgeIds = new List<int>();
+            this.Participants = new List<Participant>();
         }
 
-        public virtual string Name { get; set; }
-        public virtual Club HostClub { get; set; }
-        public virtual User Organizer { get; set; }
-        public virtual Uri Website { get; set; }
-        public virtual bool AHASanctioned { get; set; }
-        public virtual DateTime RegistrationStartDate { get; set; }
-        public virtual DateTime RegistrationEndDate { get; set; }
-        public virtual DateTime EntryDueDate { get; set; }
-        public virtual DateTime EventDate { get; set; }
+        public string Name { get; set; }
+        public int HostClubId { get; private set; }
+        public User Organizer { get; set; }
+        public Uri Website { get; set; }
+        public bool AHASanctioned { get; set; }
+        public DateTime RegistrationStartDate { get; set; }
+        public DateTime RegistrationEndDate { get; set; }
+        public DateTime EntryDueDate { get; set; }
+        public DateTime EventDate { get; set; }
 
-        public virtual Address Location { get; set; }
-        public virtual IList<Address> ShippingAddresses { get; protected set; }
+        public Address Location { get; set; }
+        public List<Address> ShippingAddresses { get; protected set; }
 
-        public virtual IList<User> Judges { get; protected set; }
-        public virtual IList<User> Stewards { get; protected set; }
+        public List<int> JudgeIds { get; protected set; }
+        public List<int> StewardIds { get; protected set; }
 
-        public virtual IList<Entry> Entries { get; set; }
+        public List<Participant> Participants { get; protected set; }
+
+        public void RegisterEntry(int userId, string name, SubStyle style, string specialIngredients)
+        {
+            int entryNumber = this.GenerateEntryNumber(style);
+            var participant = this.Participants.Single(p => p.UserId == userId);
+            participant.RegisterEntry(entryNumber, name, style, specialIngredients);
+        }
+
+        private int GenerateEntryNumber(SubStyle style)
+        {
+            return 10;
+        }
+
+        internal void AddParticipant(Participant participant)
+        {
+            this.Participants.Add(participant);
+        }
     }
 }

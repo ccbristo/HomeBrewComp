@@ -5,7 +5,7 @@ using System.Text;
 
 namespace HomeBrewComp.Domain
 {
-    public class Address : Entity<Address>
+    public class Address : ValueObject<Address>
     {
         public Address(string line1, string line2, string city, string state, string zip)
         {
@@ -19,10 +19,10 @@ namespace HomeBrewComp.Domain
         protected Address()
         { }
 
-        public virtual string Line1 { get; protected set; }
-        public virtual string Line2 { get; protected set; }
-        public virtual string City { get; protected set; }
-        public virtual string State { get; protected set; }
-        public virtual string Zip { get; protected set; }
+        public string Line1 { get; private set; }
+        public string Line2 { get; private set; }
+        public string City { get; private set; }
+        public string State { get; private set; }
+        public string Zip { get; private set; }
     }
 }
