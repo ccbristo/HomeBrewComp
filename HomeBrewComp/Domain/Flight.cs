@@ -12,8 +12,8 @@ namespace HomeBrewComp.Domain
             this.SubStyles = new List<SubStyle>();
         }
 
-        public virtual IList<SubStyle> SubStyles { get; set; }
-        public virtual IList<User> Judges { get; set; }
-        public virtual TimeAssignment Time { get; set; }
+        public List<SubStyle> SubStyles { get; set; }
+        public List<User> Judges { get; set; }
+        public TimeAssignment Time { get; set; }
     }
 }

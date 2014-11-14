@@ -40,12 +40,16 @@ namespace HomeBrewComp.Domain
         public List<int> JudgeIds { get; protected set; }
         public List<int> StewardIds { get; protected set; }
 
-        public List<Participant> Participants { get; protected set; }
+        private List<Participant> Participants { get; set; }
 
-        public void RegisterEntry(int userId, string name, SubStyle style, string specialIngredients)
+        public void RegisterEntry(string userId, string name, SubStyle style, string specialIngredients)
         {
             int entryNumber = this.GenerateEntryNumber(style);
-            var participant = this.Participants.Single(p => p.UserId == userId);
+            var participant = this.Participants.SingleOrDefault(p => p.UserId == userId);
+
+            if (participant == null)
+                throw new InvalidOperationException("A user must be entered in a competition to register entries.");
+
             participant.RegisterEntry(entryNumber, name, style, specialIngredients);
         }
 

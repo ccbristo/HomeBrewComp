@@ -9,11 +9,11 @@ namespace HomeBrewComp.Domain
     public abstract class AggregateRoot<T> : Entity<T>, IEquatable<T>
         where T : AggregateRoot<T>
     {
-        public virtual int Id { get; private set; }
+        public virtual string Id { get; private set; }
 
         public override int GetHashCode()
         {
-            return this.Id;
+            return this.Id.GetHashCode();
         }
 
         public override bool Equals(object obj)
@@ -38,7 +38,7 @@ namespace HomeBrewComp.Domain
             if (object.ReferenceEquals(other, null))
                 return false;
 
-            return this.Id == other.Id;
+            return string.Equals(this.Id, other.Id, StringComparison.Ordinal);
         }
     }
 }

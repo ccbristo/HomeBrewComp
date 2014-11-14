@@ -4,6 +4,10 @@
 # Temporary
 HomeBrewComp.Web.Fubu/
 
+# Sensitive Configs
+connectionStrings.config
+privateSettings.config
+
 # User-specific files
 *.suo
 *.user

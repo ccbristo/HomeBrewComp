@@ -31,10 +31,10 @@ namespace HomebrewComp.Tests
 
         private static void InitializeData(IDocumentSession session)
         {
-            var adminUser = session.Query<User>().SingleOrDefault(u => u.Login == "Admin");
+            var adminUser = session.Query<User>().SingleOrDefault(u => u.UserName == "admin");
             if (adminUser == null)
             {
-                adminUser = new User("admin", "adminPassword", "Admin", "User", "ccbristo@hotmail.com", "555-123-4567", "aha1234", "F01324", new Address("123 Here St", "Unit 2", "Greensboro", "NC", "27407"));
+                adminUser = new User("admin", "Admin", "User", "ccbristo@hotmail.com", "555-123-4567", "aha1234", "F01324", new Address("123 Here St", "Unit 2", "Greensboro", "NC", "27407"));
 
                 session.Store(adminUser);  
             }

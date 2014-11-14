@@ -1,9 +1,13 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2012
+# Visual Studio 2013
+VisualStudioVersion = 12.0.21005.1
+MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HomeBrewComp", "HomeBrewComp\HomeBrewComp.csproj", "{3608BECA-2249-4037-86A6-9E62B0E1CA0E}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HomebrewComp.Tests", "HomebrewComp.Tests\HomebrewComp.Tests.csproj", "{DA6EFB95-DEC4-4F4D-B422-767CD3EC7A51}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HomeBrewComp.Web", "HomeBrewComp.Web\HomeBrewComp.Web.csproj", "{9250BA85-B2B6-47D9-B5D9-B5E9B28D5090}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -19,6 +23,10 @@ Global
 		{DA6EFB95-DEC4-4F4D-B422-767CD3EC7A51}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DA6EFB95-DEC4-4F4D-B422-767CD3EC7A51}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DA6EFB95-DEC4-4F4D-B422-767CD3EC7A51}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9250BA85-B2B6-47D9-B5D9-B5E9B28D5090}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9250BA85-B2B6-47D9-B5D9-B5E9B28D5090}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9250BA85-B2B6-47D9-B5D9-B5E9B28D5090}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9250BA85-B2B6-47D9-B5D9-B5E9B28D5090}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

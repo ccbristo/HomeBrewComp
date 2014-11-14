@@ -8,7 +8,7 @@ namespace HomeBrewComp.Domain
 {
     public class Participant : Entity<Participant>
     {
-        public Participant(int userId, string firstName, string lastName, string emailAddress, string phoneNumber, Address address)
+        public Participant(string userId, string firstName, string lastName, string emailAddress, string phoneNumber, Address address)
         {
             this.UserId = userId;
             this.FirstName = firstName;
@@ -19,7 +19,7 @@ namespace HomeBrewComp.Domain
             this.Entries = new List<Entry>();
         }
 
-        public int UserId { get; private set; }
+        public string UserId { get; private set; }
         public string FirstName { get; private set; }
         public string LastName { get; private set; }
         public string EmailAddress { get; private set; }
