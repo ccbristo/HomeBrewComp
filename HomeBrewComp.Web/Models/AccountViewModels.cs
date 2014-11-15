@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
 
 namespace HomeBrewComp.Web.Models
 {
@@ -9,6 +10,9 @@ namespace HomeBrewComp.Web.Models
         public string UserName { get; set; }
 
         [Required]
+        public string Email { get; set; }
+
+        [Required]
         [Display(Name = "First name")]
         public string FirstName { get; set; }
 
@@ -16,8 +20,34 @@ namespace HomeBrewComp.Web.Models
         [Display(Name = "Last name")]
         public string LastName { get; set; }
 
+        [Display(Name = "Phone")]
+        public string PhoneNumber { get; set; }
+
         [Required]
-        public string Email { get; set; }
+        [Display(Name = "Address Line 1")]
+        public string Address1 { get; set; }
+
+        [Display(Name = "Address Line 2")]
+        public string Address2 { get; set; }
+
+        [Required]
+        public string City { get; set; }
+
+        [Required]
+        public string State { get; set; }
+
+        [Required]
+        [Display(Name = "Postal Code")]
+        public string PostalCode { get; set; }
+
+        [Required]
+        public DateTime? BirthDate { get; set; }
+
+        [Display(Name = "AHA Number")]
+        public string AHANumber { get; set; }
+
+        [Display(Name = "BJCP Id")]
+        public string BJCPId { get; set; }
 
         //void Foo()
         //{

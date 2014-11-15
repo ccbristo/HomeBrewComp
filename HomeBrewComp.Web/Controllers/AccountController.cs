@@ -219,7 +219,37 @@ namespace HomeBrewComp.Web.Controllers
                 // If the user does not have an account, then prompt the user to create an account
                 ViewBag.ReturnUrl = returnUrl;
                 ViewBag.LoginProvider = loginInfo.Login.LoginProvider;
-                return View("ExternalLoginConfirmation", new ExternalLoginConfirmationViewModel { UserName = loginInfo.DefaultUserName });
+
+                var identity = await AuthenticationManager.GetExternalIdentityAsync(DefaultAuthenticationTypes.ExternalCookie);
+                string email = identity.FindFirstValue(ClaimTypes.Email);
+                string firstName = identity.FindFirstValue(ClaimTypes.GivenName);
+                string lastName = identity.FindFirstValue(ClaimTypes.Surname);
+                string street = identity.FindFirstValue(ClaimTypes.StreetAddress);
+                string street2 = identity.FindFirstValue("Street2");
+                string city = identity.FindFirstValue("City");
+                string state = identity.FindFirstValue(ClaimTypes.StateOrProvince);
+                string postalCode = identity.FindFirstValue(ClaimTypes.PostalCode);
+                string dateOfBirthValue = identity.FindFirstValue(ClaimTypes.DateOfBirth);
+
+                DateTime? birthDate = null;
+                if (dateOfBirthValue != null)
+                    birthDate = DateTime.Parse(dateOfBirthValue);
+
+                var viewModel = new ExternalLoginConfirmationViewModel
+                {
+                    UserName = loginInfo.DefaultUserName,
+                    FirstName = firstName,
+                    LastName = lastName,
+                    Email = email,
+                    Address1 = street,
+                    Address2 = street2,
+                    City = city,
+                    State = state,
+                    PostalCode = postalCode,
+                    BirthDate = birthDate
+                };
+
+                return View("ExternalLoginConfirmation", viewModel);
             }
         }
 
@@ -272,7 +302,8 @@ namespace HomeBrewComp.Web.Controllers
                 }
 
                 // TODO: Fill in the rest of these fields
-                var user = new User(model.UserName, model.FirstName, model.LastName, model.Email, null, null, null, null);
+                var user = new User(model.UserName, model.FirstName, model.LastName, model.Email, model.PhoneNumber, model.AHANumber, model.BJCPId,
+                    new Address(model.Address1, model.Address2, model.City, model.State, model.PostalCode));
                 var result = await UserManager.CreateAsync(user);
                 if (result.Succeeded)
                 {
