@@ -13,17 +13,17 @@ namespace HomeBrewComp.Web.Authentication
 {
     public class RavenUserStore : IUserStore<User>, IUserLoginStore<User>, IUserPasswordStore<User>, IUserLockoutStore<User, string>
     {
-        private readonly IAsyncDocumentSession Session;
+        private readonly IDocumentSession Session;
 
-        public RavenUserStore(IAsyncDocumentSession session)
+        public RavenUserStore(IDocumentSession session)
         {
             this.Session = session;
         }
 
-        public async Task CreateAsync(User user)
+        public Task CreateAsync(User user)
         {
-            await Session.StoreAsync(user);
-            await Session.SaveChangesAsync();
+            Session.Store(user);
+            return Task.FromResult(0);
         }
 
         public Task DeleteAsync(User user)
@@ -31,40 +31,45 @@ namespace HomeBrewComp.Web.Authentication
             throw new NotImplementedException();
         }
 
-        public async Task<User> FindByIdAsync(string userId)
+        public Task<User> FindByIdAsync(string userId)
         {
-            return await Session.LoadAsync<User>(userId);
+            var user = Session.Load<User>(userId);
+            return Task.FromResult(user);
         }
 
-        public async Task<User> FindByNameAsync(string userName)
+        public Task<User> FindByNameAsync(string userName)
         {
-            return await Session.Query<User>().SingleOrDefaultAsync(u => u.UserName == userName);
+            var user = Session.Query<User>().SingleOrDefault(u => u.UserName == userName);
+            return Task.FromResult(user);
         }
 
-        // WTF is this supposed to do? UoW is tracking changes, so just flush it here?
-        public async Task UpdateAsync(User user)
+        public Task UpdateAsync(User user)
         {
-            await Session.SaveChangesAsync();
+            return Task.FromResult(0);
         }
 
         public void Dispose()
         {
+            if (Session == null) // only possible if this is partially constructed
+                return;
 
+            Session.SaveChanges();
+            Session.Dispose();
         }
 
-        public async Task AddLoginAsync(User user, UserLoginInfo login)
+        public Task AddLoginAsync(User user, UserLoginInfo login)
         {
             user.Logins.Add(new Login(login.LoginProvider, login.ProviderKey));
-            await Session.SaveChangesAsync();
+            return Task.FromResult(0);
         }
 
-        public async Task<User> FindAsync(UserLoginInfo login)
+        public Task<User> FindAsync(UserLoginInfo login)
         {
-            var user = await Session.Query<User>()
-                .SingleOrDefaultAsync(u => u.Logins.Any(l => l.Provider == login.LoginProvider &&
+            var user = Session.Query<User>()
+                .SingleOrDefault(u => u.Logins.Any(l => l.Provider == login.LoginProvider &&
                     l.ProviderKey == login.ProviderKey));
 
-            return user;
+            return Task.FromResult(user);
         }
 
         public Task<IList<UserLoginInfo>> GetLoginsAsync(User user)
@@ -75,11 +80,11 @@ namespace HomeBrewComp.Web.Authentication
             return Task.FromResult(loginInfo);
         }
 
-        public async Task RemoveLoginAsync(User user, UserLoginInfo login)
+        public Task RemoveLoginAsync(User user, UserLoginInfo login)
         {
             var toRemove = user.Logins.Single(l => l.Provider == login.LoginProvider);
             user.Logins.Remove(toRemove);
-            await Session.SaveChangesAsync();
+            return Task.FromResult(0);
         }
 
         public Task<string> GetPasswordHashAsync(User user)
@@ -93,9 +98,10 @@ namespace HomeBrewComp.Web.Authentication
             return Task.FromResult(hasPassword);
         }
 
-        public async Task SetPasswordHashAsync(User user, string passwordHash)
+        public Task SetPasswordHashAsync(User user, string passwordHash)
         {
             user.PasswordHash = passwordHash;
+            return Task.FromResult(0);
         }
 
         public Task<int> GetAccessFailedCountAsync(User user)
@@ -113,24 +119,26 @@ namespace HomeBrewComp.Web.Authentication
             return Task.FromResult(user.LockoutEndDate);
         }
 
-        public async Task<int> IncrementAccessFailedCountAsync(User user)
+        public Task<int> IncrementAccessFailedCountAsync(User user)
         {
-            return user.AccessFailedCount++;
+            return Task.FromResult(user.AccessFailedCount++);
         }
 
-        public async Task ResetAccessFailedCountAsync(User user)
+        public Task ResetAccessFailedCountAsync(User user)
         {
             user.AccessFailedCount = 0;
+            return Task.FromResult(0);
         }
 
-        public async Task SetLockoutEnabledAsync(User user, bool enabled)
+        public Task SetLockoutEnabledAsync(User user, bool enabled)
         {
-            
+            return Task.FromResult(0);
         }
 
-        public async Task SetLockoutEndDateAsync(User user, DateTimeOffset lockoutEnd)
+        public Task SetLockoutEndDateAsync(User user, DateTimeOffset lockoutEnd)
         {
             user.LockoutEndDate = lockoutEnd;
+            return Task.FromResult(0);
         }
     }
 }

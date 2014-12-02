@@ -17,7 +17,7 @@ namespace HomeBrewComp.Web.Controllers
     public class AccountController : Controller
     {
         public AccountController()
-            : this(new UserManager<User>(new RavenUserStore(MvcApplication.OpenAsyncSession())))
+            : this(new UserManager<User>(new RavenUserStore(MvcApplication.OpenSession())))
         {
         }
 
